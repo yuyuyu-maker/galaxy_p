@@ -167,3 +167,4 @@ def Stratified_Sampling(images_tensor, labels_tensor, spire_indices, elliptical_
     all_labels = all_labels[shuffle_indices]
 
     return all_images, all_labels
+

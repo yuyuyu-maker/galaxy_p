@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy Image Classification</title>
+    <link rel="stylesheet" href="style.css"> <!-- 引入外部CSS文件 -->
+</head>
+<body>
+    <div class="container">
+        <h1>Upload an image for galaxy classification</h1>
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Choose an image:</label>
+                <input type="file" name="file" id="file" required>
+            </div>
+            <button type="submit" class="btn-submit">Predict</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        // 监听表单提交
+        document.querySelector("form").onsubmit = async function(event) {
+            event.preventDefault();
+
+            let formData = new FormData(event.target);
+
+            let response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+
+            let result = await response.json();
+            if (result.prediction) {
+                document.getElementById('result').innerText = 'Prediction: ' + result.prediction;
+            } else {
+                document.getElementById('result').innerText = 'Error: ' + result.error;
+            }
+        }
+    </script>
+</body>
+</html>
